@@ -4,47 +4,35 @@ import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const handleChange =(e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError("");
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.post(
-        "/auth/login",
-        formData
-      );
-      localStorage.setItem(
-        "token",
-        res.data.token
-      );
-      alert("Login Successful");
+      const res = await API.post("/auth/login", formData);
+      localStorage.setItem("token", res.data.token);
       navigate("/");
-    } catch (error) {
-      alert(
-        error.response?.data?.message ||
-        "Login Failed"
-      );
+    } catch (err) {
+      setError(err.response?.data?.message || "Login failed");
     }
   };
+
   return (
     <div style={styles.container}>
-      <form
-        style={styles.form}
-        onSubmit={handleSubmit}
-      >
+      <form style={styles.form} onSubmit={handleSubmit}>
         <h2>Login</h2>
+        {error && <p style={styles.error}>{error}</p>}
         <input
           type="email"
           name="email"
           placeholder="Email"
+          value={formData.email}
           onChange={handleChange}
           required
           style={styles.input}
@@ -53,24 +41,20 @@ const Login = () => {
           type="password"
           name="password"
           placeholder="Password"
+          value={formData.password}
           onChange={handleChange}
           required
           style={styles.input}
         />
-        <button style={styles.button}>
-          Login
-        </button>
+        <button style={styles.button}>Login</button>
         <p>
-          Don't have an account?
-          <Link to="/signup">
-            Signup
-          </Link>
+          Don't have an account? <Link to="/signup">Signup</Link>
         </p>
-
       </form>
     </div>
   );
 };
+
 const styles = {
   container: {
     height: "100vh",
@@ -79,7 +63,6 @@ const styles = {
     alignItems: "center",
     background: "#f5f5f5",
   },
-
   form: {
     display: "flex",
     flexDirection: "column",
@@ -90,18 +73,21 @@ const styles = {
     borderRadius: "10px",
     boxShadow: "0 0 10px rgba(0,0,0,0.1)",
   },
-
   input: {
     padding: "10px",
     fontSize: "16px",
   },
-
   button: {
     padding: "10px",
     background: "black",
     color: "white",
     border: "none",
     cursor: "pointer",
+  },
+  error: {
+    color: "red",
+    fontSize: "14px",
+    margin: 0,
   },
 };
 
