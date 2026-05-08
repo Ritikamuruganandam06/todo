@@ -147,7 +147,7 @@ exports.assignTagsToTask = async (req, res) => {
 
 exports.reorderTasks = async (req, res) => {
   try {
-    const { taskIds } = req.body; // ordered array of task IDs
+    const { taskIds } = req.body; 
     if (!Array.isArray(taskIds)) {
       return res.status(400).json({ message: "taskIds must be an array" });
     }
