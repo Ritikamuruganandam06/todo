@@ -11,8 +11,8 @@ app.get('/',(req,res) => {
     res.send('API running');
 });
 
-sequelize.authenticate()
-    .then(() => console.log('db connected'))
+sequelize.sync({ alter: false })
+    .then(() => console.log('db connected and tables synced'))
     .catch(err => console.error(err));
 
 app.use('/api/auth',authRoutes);

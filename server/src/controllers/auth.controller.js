@@ -12,7 +12,7 @@ const signup=async(req,res) => {
         const user=await User.create({
             username,
             email,
-            password_hash:hashedPassword
+            password:hashedPassword
         });
         res.status(201).json({message:'user created',userId:user.id});
     }
@@ -31,7 +31,7 @@ const login = async(req,res) => {
         if(!user) {
             return res.status(400).json({message:'Invalid credentials'});
         }
-        const isMatch = await bcrypt.compare(password,user.password_hash);
+        const isMatch = await bcrypt.compare(password,user.password);
         if(!isMatch) {
             return res.status(400).json({message:'Invalid credentials'});
         }
