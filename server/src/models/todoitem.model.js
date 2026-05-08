@@ -26,11 +26,14 @@ module.exports = (sequelize) => {
         type: DataTypes.ENUM("low", "medium", "high"),
         defaultValue: "medium",
       },
+      order: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
     },
     {
       tableName: "todo_items",
       timestamps: true,
-
     }
   );
 

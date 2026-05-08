@@ -37,7 +37,7 @@ exports.getTasksByList = async(req, res) =>{
       where: {
         todoListId: req.params.listId,
       },
-      order: [["createdAt", "DESC"]],
+      order: [["order", "ASC"]],
     });
     res.status(200).json(tasks);
   } catch (error) {
@@ -140,6 +140,21 @@ exports.assignTagsToTask = async (req, res) => {
     const tags = await Tag.findAll({ where: { id: tagIds } });
     await task.addTags(tags);
     res.status(200).json({ message: "Tags assigned successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.reorderTasks = async (req, res) => {
+  try {
+    const { taskIds } = req.body; // ordered array of task IDs
+    if (!Array.isArray(taskIds)) {
+      return res.status(400).json({ message: "taskIds must be an array" });
+    }
+    await Promise.all(
+      taskIds.map((id, index) => TodoItem.update({ order: index }, { where: { id } }))
+    );
+    res.status(200).json({ message: "Tasks reordered successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
