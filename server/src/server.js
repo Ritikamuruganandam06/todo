@@ -7,6 +7,7 @@ app.use(express.json());
 const {sequelize} = require('./models');
 const authRoutes = require('./routes/auth.routes');
 const todoListRoutes = require("./routes/todolist.routes");
+const todoItemRoutes = require("./routes/todoitem.routes");
 
 app.get('/',(req,res) => {
     res.send('API running');
@@ -18,6 +19,7 @@ sequelize.sync({ alter: false })
 
 app.use('/api/auth',authRoutes);
 app.use("/api/lists", todoListRoutes);
+app.use("/api/tasks",todoItemRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT,() => {
