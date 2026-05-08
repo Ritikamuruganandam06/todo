@@ -3,7 +3,6 @@ const { TodoList } = require("../models");
 exports.createList = async (req, res) => {
   try {
     const{title,description,isPublic}=req.body;
-
     const list = await TodoList.create({
       title,
       description,

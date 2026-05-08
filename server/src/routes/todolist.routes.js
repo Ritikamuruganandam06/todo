@@ -1,4 +1,12 @@
 const express = require('express');
 const router=express.Router();
 const{createList,getLists,getListById,updateList,deleteList}=require('../controllers/todolist.controller');
-router.post
+const authMiddleware=require('../middleware/auth.middleware');
+
+router.post("/", authMiddleware, createList);
+router.get("/", authMiddleware, getLists);
+router.get("/:id", authMiddleware, getListById);
+router.put("/:id", authMiddleware, updateList);
+router.delete("/:id", authMiddleware, deleteList);
+
+module.exports = router;
