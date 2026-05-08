@@ -1,5 +1,34 @@
 const { TodoList } = require("../models");
 
+exports.generatePublicLink = async (req, res) => {
+  try {
+    const list = await TodoList.findOne({
+      where: {
+        id: req.params.id,
+        userId: req.user.id,
+      },
+    });
+
+    if (!list) {
+      return res.status(404).json({
+        message: "Todo list not found",
+      });
+    }
+
+    list.isPublic = true;
+    await list.save();
+
+    res.status(200).json({
+      message: "Public link generated successfully",
+      publicLink: `${req.protocol}://${req.get("host")}/api/public/${list.publicToken}`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 exports.createList = async (req, res) => {
   try {
     const{title,description,isPublic}=req.body;

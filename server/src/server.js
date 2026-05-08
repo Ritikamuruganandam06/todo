@@ -10,6 +10,7 @@ const todoListRoutes = require("./routes/todolist.routes");
 const todoItemRoutes = require("./routes/todoitem.routes");
 const tagRoutes = require("./routes/tag.routes");
 const statsRoutes = require("./routes/stats.routes");
+const publicRoutes = require("./routes/public.routes");
 
 app.get('/',(req,res) => {
     res.send('API running');
@@ -24,6 +25,7 @@ app.use("/api/lists", todoListRoutes);
 app.use("/api/tasks",todoItemRoutes);
 app.use("/api/tags", tagRoutes);
 app.use("/api/lists", statsRoutes);
+app.use("/api/public", publicRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT,() => {
