@@ -30,6 +30,13 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         defaultValue: 0,
       },
+      reminderDate: {
+    type: DataTypes.DATE,
+      },
+    reminderSent: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+      },
     },
     {
       tableName: "todo_items",
