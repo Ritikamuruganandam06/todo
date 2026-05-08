@@ -1,5 +1,5 @@
 const {TodoItem,Tag,TodoItemTag} = require("../models");
-const { Op } = require("sequelize");
+const {Op} = require("sequelize");
 
 exports.getTodoListStats = async (req, res) => {
   try {
